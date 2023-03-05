@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hilttest.databinding.SingleItemBinding
 import com.example.hilttest.domain.Car
+import javax.inject.Inject
 
 class CarsRecyclerViewAdapter(private var listCars: MutableList<Car>) :
     RecyclerView.Adapter<CarsRecyclerViewAdapter.ViewHolder>() {

@@ -2,6 +2,7 @@ package com.example.hilttest.presentation.recyclerview
 
 import androidx.recyclerview.widget.DiffUtil
 import com.example.hilttest.domain.Car
+import javax.inject.Inject
 
 class CarsCallback(private val oldList: MutableList<Car>, private val newList: MutableList<Car>) :
     DiffUtil.Callback() {

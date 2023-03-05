@@ -1,6 +1,7 @@
 package com.example.hilttest.presentation.firstfragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,7 @@ import com.example.hilttest.presentation.ActionState
 import com.example.hilttest.presentation.BaseFragment
 import com.example.hilttest.presentation.recyclerview.CarsRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class FirstFragment : BaseFragment() {
@@ -20,6 +22,8 @@ class FirstFragment : BaseFragment() {
 
     //    private val viewModel: FirstFragmentViewModel by viewModels()
     private val viewModel: FirstFragmentViewModel by activityViewModels()
+
+    lateinit var adapter: CarsRecyclerViewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,16 +45,24 @@ class FirstFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.actionState.collect {
                 when (it) {
-                    ActionState.NotStarted -> viewModel.getCars()
+                    ActionState.NotStarted -> {
+                        viewModel.getCars()
+                        val list = mutableListOf<Car>(Car(22, "7777"))
+                        adapter = CarsRecyclerViewAdapter(list)
+                        binding.recyclerview.adapter = adapter
+                    }
                     ActionState.Started -> println("Hello")
                 }
             }
         }
 
+
+
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.sharedFlowCars.collect {
 
-                binding.recyclerview.adapter = CarsRecyclerViewAdapter(it)
+                adapter.setListOfCars(it)
+//                binding.recyclerview.adapter = CarsRecyclerViewAdapter(it)
 
             }
         }

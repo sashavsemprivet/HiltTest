@@ -28,7 +28,7 @@ class CarsRecyclerViewAdapter(private var listCars: MutableList<Car>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder) {
             with(listCars[position]) {
-                Log.d("AAA", "make $position")
+                Log.d("AAA", "New item: $position")
                 binding.idCar.text = this.id.toString()
                 binding.brandCar.text = this.brand
             }

@@ -20,6 +20,6 @@ class CarsCallback(private val oldList: MutableList<Car>, private val newList: M
     override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
         val oldCar = oldList[oldItemPosition]
         val newCar = newList[newItemPosition]
-        return oldCar.brand == newCar.brand
+        return oldCar == newCar
     }
 }

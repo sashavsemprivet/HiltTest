@@ -23,6 +23,9 @@ class CarsRecyclerViewAdapter(private var listCars: MutableList<Car>) :
     fun setListOfCars(newListCars: MutableList<Car>) {
         val diffCallback = CarsCallback(listCars, newListCars)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
+        println(newListCars)
+        listCars.clear()
+        listCars.addAll(newListCars)
         diffResult.dispatchUpdatesTo(this)
     }
 

@@ -1,19 +1,16 @@
 package com.example.hilttest.presentation.firstfragment
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.hilttest.databinding.FragmentFirstBinding
-import com.example.hilttest.domain.Car
-import com.example.hilttest.presentation.ActionState
+import com.example.hilttest.presentation.ActionEvent
 import com.example.hilttest.presentation.BaseFragment
 import com.example.hilttest.presentation.recyclerview.CarsRecyclerViewAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FirstFragment : BaseFragment() {
@@ -38,20 +35,20 @@ class FirstFragment : BaseFragment() {
 
         observeNavigation(viewModel)
 
+        adapter = CarsRecyclerViewAdapter(mutableListOf())
+        binding.recyclerview.adapter = adapter
+
         binding.buttonToSecond.setOnClickListener {
             viewModel.toSecondFragment()
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewModel.actionState.collect {
+            viewModel.actionEvent.collect {
                 when (it) {
-                    ActionState.NotStarted -> {
+                    ActionEvent.NotStarted -> {
                         viewModel.getCars()
-                        val list = mutableListOf<Car>(Car(22, "7777"))
-                        adapter = CarsRecyclerViewAdapter(list)
-                        binding.recyclerview.adapter = adapter
                     }
-                    ActionState.Started -> println("Hello")
+                    ActionEvent.Started -> println("Hello")
                 }
             }
         }
@@ -60,10 +57,8 @@ class FirstFragment : BaseFragment() {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.sharedFlowCars.collect {
-
+                println(it.size)
                 adapter.setListOfCars(it)
-//                binding.recyclerview.adapter = CarsRecyclerViewAdapter(it)
-
             }
         }
     }

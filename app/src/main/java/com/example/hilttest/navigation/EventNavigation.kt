@@ -1,6 +1,6 @@
 package com.example.hilttest.navigation
 
-class Event<out T>(private val content: T) {
+class EventNavigation<out T>(private val content: T) {
 
     private var hasBeenHandled = false
 
